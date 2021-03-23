@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: springboot-wavefront-demo-config
+  labels:
+    app: springboot-wavefront-demo
+data:
+  #wavefront.token: 
+  #wavefront.uri: 
+  app.name: springboot-wavefront-demo
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: springboot-wavefront-demo
+  labels:
+    app: springboot-wavefront-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: springboot-wavefront-demo
+  template:
+    metadata:
+      labels:
+        app: springboot-wavefront-demo
+    spec:
+      containers:
+      - image: djmcaleese/springboot-wavefront-demo
+        name: springboot-wavefront-demo
+        envFrom:
+        - configMapRef:
+            name: springboot-wavefront-demo-config
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "1Gi"
+            cpu: "500m"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: springboot-wavefront-demo
+  labels:
+    app: springboot-wavefront-demo
+spec:
+  type: NodePort
+  ports:
+  - port: 8080
+    protocol: TCP
+    targetPort: 8080
+  selector:
+    app: springboot-wavefront-demo
+
+---
