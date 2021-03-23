@@ -11,7 +11,7 @@
 	<groupId>com.vmware</groupId>
 	<artifactId>springboot-wavefront-demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>wavefront-demo</name>
+	<name>springboot-wavefront-demo</name>
 	<description>Demo of Spring Boot shipping metrics and traces to Wavefront</description>
 	<properties>
 		<java.version>16</java.version>
